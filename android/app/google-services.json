@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "3426880691",
+    "firebase_url": "https://familytracking-fca32.firebaseio.com",
+    "project_id": "familytracking-fca32",
+    "storage_bucket": "familytracking-fca32.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3426880691:android:c256975342a3b3423774c6",
+        "android_client_info": {
+          "package_name": "com.familytracking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3426880691-an5rgmr21shcpucpt9rru2h68o3qopc4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.familytracking",
+            "certificate_hash": "b09d0b0c397b42e6a9c17e841387d87f69db7617"
+          }
+        },
+        {
+          "client_id": "3426880691-fv85mf3jeaa4gjrk3l8iscis42cme61f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.familytracking",
+            "certificate_hash": "6cc8401e3c5e544fdf9c5ba382bf5b08f15a07f1"
+          }
+        },
+        {
+          "client_id": "3426880691-r45kflhulo6nppvphlq11mp7nltlkjt9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBglr2Gj9-KbswNxYawqj7UCDo-Se4fYtk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3426880691-r45kflhulo6nppvphlq11mp7nltlkjt9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
