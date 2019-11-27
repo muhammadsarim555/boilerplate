@@ -15,15 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "3426880691-an5rgmr21shcpucpt9rru2h68o3qopc4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.familytracking",
-            "certificate_hash": "b09d0b0c397b42e6a9c17e841387d87f69db7617"
-          }
-        },
-        {
-          "client_id": "3426880691-fv85mf3jeaa4gjrk3l8iscis42cme61f.apps.googleusercontent.com",
+          "client_id": "3426880691-0jb14vs2us6njn0npk9a73d6sgo08qck.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.familytracking",
