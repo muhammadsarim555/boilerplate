@@ -39,10 +39,12 @@ const onCodeConfirmError = (dispatch, error) => {
 
 const onCodeDispatched = code => {
   return (dispatch, getState) => {
-    getState()
-      .auth.confirmResult.confirm(code)
-      .then(user => onLoginSuccess(dispatch, user))
-      .catch(error => onCodeConfirmError(dispatch, error));
+    console.log(getState, "getstate")
+
+  //   getState()
+  //     .auth.confirmResult.confirm(code)
+  //     .then(user => onLoginSuccess(dispatch, user))
+  //     .catch(error => onCodeConfirmError(dispatch, error));
   };
 };
 
