@@ -14,9 +14,9 @@ import {
 import firebase from 'react-native-firebase';
 
 class LoginScreen extends Component {
-//   static navigationOptions = {
-//     header: null,
-//   };
+    static navigationOptions = {
+      header: null,
+    };
 
   constructor() {
     super();
@@ -28,8 +28,7 @@ class LoginScreen extends Component {
   componentDidMount() {
     this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
-          alert("user is here")
-        // this.props.navigation.navigate('App');
+        this.props.navigation.navigate('Home');
       }
     });
   }
