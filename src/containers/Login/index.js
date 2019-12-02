@@ -22,6 +22,8 @@ class LoginScreen extends Component {
     super();
     this.state = {
       valid: '',
+      number: '3172142662',
+      code: '',
     };
   }
 
@@ -37,25 +39,39 @@ class LoginScreen extends Component {
     if (this.unsubscribe) this.unsubscribe();
   }
 
-  onPhoneChange(text) {
-    this.props.phoneChanged(text);
-    if (this.phone.isValidNumber()) {
-      this.setState({
-        valid: true,
-      });
-    } else {
-      this.setState({
-        valid: false,
-      });
-    }
+  onPhoneChange(number) {
+    // this.props.phoneChanged(text);
+    // if (this.phone.isValidNumber()) {
+    //   this.setState({
+    //     valid: true,
+    //   });
+    // } else {
+    //   this.setState({
+    //     valid: false,
+    //   });
+    // }
+
+    this.setState({number});
   }
 
-  onCodeChange(text) {
-    this.props.codeChanged(text);
+  onCodeChange(code) {
+    // this.props.codeChanged(text);
+    this.setState({code});
   }
 
   onLoginButtonPress() {
-    this.props.onPhoneLogin(this.props.auth.phone);
+    // this.props.onPhoneLogin(this.props.auth.phone);
+
+    const {number, code} = this.state;
+
+    firebase
+      .auth()
+      .signInWithPhoneNumber(number)
+      .then(confirmResult => {
+        console.log(confirmResult, 'confirmResult');
+        // onCodeSent(dispatch, confirmResult);
+      })
+      .catch(error => onCodeSentError(dispatch, error));
   }
 
   onCodeButtonPress() {
@@ -95,30 +111,30 @@ class LoginScreen extends Component {
               fontSize: 20,
               fontWeight: 'bold',
             }}
-            onChangePhoneNumber={this.onPhoneChange.bind(this)}
+            onChangePhoneNumber={e => this.onPhoneChange(e)}
             value={auth.phone}
           />
         </Item>
-        {this.state.valid ? (
-          <Button
-            light
-            rounded
+        <Button
+          light
+          rounded
+          style={{
+            width: '100%',
+            marginTop: 10,
+            justifyContent: 'center',
+          }}
+          // onPress={() => alert("wore")}
+          onPress={this.onLoginButtonPress.bind(this)}
+          >
+          <Text
             style={{
-              width: '100%',
-              marginTop: 10,
-              justifyContent: 'center',
-            }}
-            onPress={this.onLoginButtonPress.bind(this)}>
-            <Text
-              style={{
-                fontSize: 20,
-                color: '#042a41',
-                fontWeight: 'bold',
-              }}>
-              Log in With Phone
-            </Text>
-          </Button>
-        ) : null}
+              fontSize: 20,
+              color: '#042a41',
+              fontWeight: 'bold',
+            }}>
+            Log in With Phone
+          </Text>
+        </Button>
       </View>
     );
   }
