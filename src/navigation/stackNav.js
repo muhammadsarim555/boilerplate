@@ -8,6 +8,7 @@ const AppNavigator = createStackNavigator(
   {
     Login: Screens.Login,
     Home: Screens.Home,
+    OtpVerification: Screens.OtpVerification,
   },
 
   // {

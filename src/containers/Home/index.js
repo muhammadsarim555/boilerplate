@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
 
+import GetLocation from 'react-native-get-location'
 // FILES
 import {Components} from '../../components';
 import Icon from 'react-native-vector-icons/Feather';
@@ -35,8 +36,27 @@ const leftIcon = props => {
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      latitude: null,
+      longitude: null,
+      error: null,
+    };
   }
+
+  componentDidMount() {
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+  })
+  .then(location => {
+      console.log(location,"location");
+  })
+  .catch(error => {
+      const { code, message } = error;
+      console.warn(code, message);
+  })
+  }
+
   render() {
     return (
       <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
@@ -56,6 +76,9 @@ class Home extends Component {
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}></MapView>
+        <Text> {this.state.latitude} </Text>
+        <Text> {this.state.longitude} </Text>
+        <Text> {this.state.error} </Text>
       </View>
     );
   }

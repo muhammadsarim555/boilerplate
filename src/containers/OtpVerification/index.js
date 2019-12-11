@@ -13,7 +13,7 @@ import {
 } from '../../store/actions';
 import firebase from 'react-native-firebase';
 
-export default class LoginScreen extends Component {
+export default class OtpVerification extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -29,50 +29,30 @@ export default class LoginScreen extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
-  //     if (user) {
-  //       this.props.navigation.navigate('Home');
-  //     }
-  //   });
-  // }
-
-  componentWillUnmount() {
-    if (this.unsubscribe) this.unsubscribe();
+  onCodeChange(code) {
+    this.setState({code});
   }
 
-  onPhoneChange(number) {
-    this.setState({number});
-  }
-
-  onLoginButtonPress() {
-    const {number} = this.state;
-
-    firebase
-      .auth()
-      .signInWithPhoneNumber('+92' + number)
-      .then(confirmResult => {
-        this.setState({
-          confirmResult,
-          message: 'Code has been sent!',
-          isOtp: true,
+  verifyOTP = async () => {
+    const {confirmResult} = this.props.navigation.state.params;
+    let otp = this.state.code;
+    if (confirmResult && otp) {
+      alert(otp);
+      confirmResult
+        .confirm(otp)
+        .then(user => {
+          console.log('oho!', user);
+        })
+        .catch(error => {
+          alert(error.message) &&
+            this.setState({
+              message: `Code Confirm Error: ${error.message}`,
+            });
         });
-        console.log('confirmResult: ', confirmResult);
-        this.props.navigation.navigate('OtpVerification', {
-          confirmResult: confirmResult,
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        // this.setState({
-        //   message: `Sign In With Phone Number Error:
-        //   ${error.message}`,
-        // });
-      });
-  }
+    }
+  };
 
-  renderPhoneNumberInput() {
-    const {auth} = this.props;
+  renderCodeInput() {
     return (
       <View
         style={{
@@ -88,24 +68,15 @@ export default class LoginScreen extends Component {
           <Input
             style={{
               textAlign: 'center',
-            }}
-            maxLength={15}
-            keyboardType={'phone-pad'}
-          />
-          <PhoneInput
-            ref={ref => {
-              this.phone = ref;
-            }}
-            style={{
-              alignContent: 'center',
-              justifyContent: 'center',
-            }}
-            textStyle={{
               fontSize: 20,
+              color: '#042a41',
               fontWeight: 'bold',
             }}
-            onChangePhoneNumber={e => this.onPhoneChange(e)}
-            value={this.state.number}
+            maxLength={8}
+            keyboardType={'numeric'}
+            placeholder="confirmation code here"
+            onChangeText={this.onCodeChange.bind(this)}
+            value={this.state.code}
           />
         </Item>
         <Button
@@ -116,15 +87,14 @@ export default class LoginScreen extends Component {
             marginTop: 10,
             justifyContent: 'center',
           }}
-          // onPress={() => alert("wore")}
-          onPress={this.onLoginButtonPress.bind(this)}>
+          onPress={() => this.onCodeButtonPress()}>
           <Text
             style={{
               fontSize: 20,
               color: '#042a41',
               fontWeight: 'bold',
             }}>
-            Log in With Phone
+            Enter Code
           </Text>
         </Button>
       </View>
@@ -141,7 +111,7 @@ export default class LoginScreen extends Component {
             justifyContent: 'center',
             backgroundColor: '#4F6D7A',
           }}>
-          {this.renderPhoneNumberInput()}
+          {this.renderCodeInput()}
         </Container>
       </Container>
     );

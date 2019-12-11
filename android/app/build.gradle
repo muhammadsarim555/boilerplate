@@ -186,6 +186,7 @@ keyPassword MYAPP_RELEASE_KEY_PASSWORD
 }
 
 dependencies {
+    implementation project(':react-native-get-location')
     implementation project(':react-native-maps')
     implementation project(':react-native-firebase')
     implementation fileTree(dir: "libs", include: ["*.jar"])
