@@ -38,7 +38,8 @@ target 'FamilyTracking' do
 
   pod 'react-native-maps', :path => '../node_modules/react-native-maps'
 
-  pod 'ReactNativeGetLocation', :path => '../node_modules/react-native-get-location'
+
+  pod 'RNGoogleSignin', :path => '../node_modules/react-native-google-signin'
 
   target 'FamilyTrackingTests' do
     inherit! :search_paths

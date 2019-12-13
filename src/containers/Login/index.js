@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PhoneInput from 'react-native-phone-input';
 import {connect} from 'react-redux';
-import {View, StatusBar} from 'react-native';
+import {View, StatusBar, Alert} from 'react-native';
 import {Container, Item, Input, Button, Text} from 'native-base';
 import {
   phoneChanged,
@@ -12,6 +12,7 @@ import {
   onSignOut,
 } from '../../store/actions';
 import firebase from 'react-native-firebase';
+import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
 export default class LoginScreen extends Component {
   static navigationOptions = {
@@ -37,9 +38,61 @@ export default class LoginScreen extends Component {
   //   });
   // }
 
-  componentWillUnmount() {
-    if (this.unsubscribe) this.unsubscribe();
+  // componentWillUnmount() {
+  //   if (this.unsubscribe) this.unsubscribe();
+  // }
+
+  componentDidMount() {
+    GoogleSignin.configure();
   }
+
+  _configureGoogleSignIn() {
+    // GoogleSignin.configure({
+    //   scopes: ["https://www.googleapis.com/auth/drive.readonly"],
+    //   webClientId:
+    //     "3426880691-r45kflhulo6nppvphlq11mp7nltlkjt9.apps.googleusercontent.com", //Replace with your own client id
+    //   offlineAccess: true,
+    //   hostedDomain: "",
+    //   loginHint: "",
+    //   forceConsentPrompt: true,
+    //   accountName: "",
+    //   iosClientId:
+    //     "XXXXXX-krv1hjXXXXXXp51pisuc1104q5XXXXXXe.apps.googleusercontent.com"
+    // });
+  }
+
+  _signIn = async props => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const obj = {};
+
+      obj.name = userInfo.user.name;
+      obj.id = userInfo.user.id;
+      obj.email = userInfo.user.email;
+      obj.photo = userInfo.user.photo;
+
+      await GoogleSignin.revokeAccess();
+
+      alert(userInfo.user.name);
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // sign in was cancelled
+        Alert.alert('cancelled');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation in progress already
+        Alert.alert('in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        Alert.alert('play services not available or outdated');
+      } else {
+        console.log('Something went wrong:', error.toString());
+        Alert.alert('Something went wrong', error.toString());
+        this.setState({
+          error,
+        });
+      }
+    }
+  };
 
   onPhoneChange(number) {
     this.setState({number});
@@ -63,11 +116,8 @@ export default class LoginScreen extends Component {
         });
       })
       .catch(error => {
+        Alert.alert(JSON.stringify(error));
         console.log(error);
-        // this.setState({
-        //   message: `Sign In With Phone Number Error:
-        //   ${error.message}`,
-        // });
       });
   }
 
@@ -142,6 +192,13 @@ export default class LoginScreen extends Component {
             backgroundColor: '#4F6D7A',
           }}>
           {this.renderPhoneNumberInput()}
+          <GoogleSigninButton
+            style={{width: 192, height: 48}}
+            size={GoogleSigninButton.Size.Wide}
+            color={GoogleSigninButton.Color.Dark}
+            onPress={this._signIn}
+            disabled={this.state.isSigninInProgress}
+          />
         </Container>
       </Container>
     );

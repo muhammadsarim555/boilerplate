@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PhoneInput from 'react-native-phone-input';
 import {connect} from 'react-redux';
-import {View, StatusBar} from 'react-native';
+import {View, StatusBar,Alert} from 'react-native';
 import {Container, Item, Input, Button, Text} from 'native-base';
 import {
   phoneChanged,
@@ -42,9 +42,10 @@ export default class OtpVerification extends Component {
         .confirm(otp)
         .then(user => {
           console.log('oho!', user);
+          this.props.navigation.navigate('Home');
         })
         .catch(error => {
-          alert(error.message) &&
+          Alert.alert(JSON.stringify(error)) &&
             this.setState({
               message: `Code Confirm Error: ${error.message}`,
             });
@@ -87,7 +88,7 @@ export default class OtpVerification extends Component {
             marginTop: 10,
             justifyContent: 'center',
           }}
-          onPress={() => this.onCodeButtonPress()}>
+          onPress={() => this.verifyOTP()}>
           <Text
             style={{
               fontSize: 20,
